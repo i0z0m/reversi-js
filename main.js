@@ -105,7 +105,7 @@ const changeTurn = () => {
       const whiteCount = board.flat().filter((v) => v.value === 2).length;
       let message = `Black ${blackCount}: White ${whiteCount}. `;
       if (blackCount > whiteCount) {
-        message += `Black won.`;
+        message += "Black won.";
       } else if (whiteCount > blackCount) {
         message += "White won.";
       } else {
