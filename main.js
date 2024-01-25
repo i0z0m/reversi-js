@@ -128,14 +128,36 @@ const changeTurn = () => {
   }
 };
 
+const computerMove = async () => {
+  await new Promise((r) => setTimeout(r, 500));
+  for (let y = 1; y < 9; y++) {
+    for (let x = 1; x < 9; x++) {
+      if (putPiece(x, y, currentTurn)) {
+        putPiece(x, y, currentTurn, true);
+        showBoard();
+        changeTurn();
+        if (currentTurn === 2) {
+          computerMove();
+        }
+        return;
+      }
+    }
+  }
+};
+
 const ondown = (x, y) => {
   if (board[y][x].value !== 0) {
     return;
   }
-  if (putPiece(x, y, currentTurn)) {
-    putPiece(x, y, currentTurn, true);
-    showBoard();
-    changeTurn();
+  if (currentTurn === 1) {
+    if (putPiece(x, y, currentTurn)) {
+      putPiece(x, y, currentTurn, true);
+      showBoard();
+      changeTurn();
+      if (currentTurn === 2) {
+        computerMove();
+      }
+    }
   }
 };
 
