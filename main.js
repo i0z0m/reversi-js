@@ -101,8 +101,8 @@ const changeTurn = () => {
   if (pass) {
     if (lastPass) {
       // gameover
-      let blackCount = board.flat().filter((v) => v.value === 1).length;
-      let whiteCount = board.flat().filter((v) => v.value === 2).length;
+      const blackCount = board.flat().filter((v) => v.value === 1).length;
+      const whiteCount = board.flat().filter((v) => v.value === 2).length;
       let message = `Black ${blackCount}: White ${whiteCount}. `;
       if (blackCount > whiteCount) {
         message += `Black won.`;
