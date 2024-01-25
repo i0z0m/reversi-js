@@ -30,6 +30,10 @@ const init = () => {
       });
       container.appendChild(div);
 
+      div.onpointerdown = () => {
+        ondown(x, y);
+      };
+
       const piece = document.createElement("div");
       div.appendChild(piece);
       Object.assign(piece.style, {
@@ -40,6 +44,61 @@ const init = () => {
       });
 
       board[y][x].element = piece;
+    }
+  }
+};
+
+const putPiece = (x, y, turn, action) => {
+  if (board[y][x].value !== 0) {
+    return false;
+  }
+
+  let total = 0;
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dy === 0 && dx === 0) {
+        continue;
+      }
+      let cx = x + dx;
+      let cy = y + dy;
+      let c = 0;
+      while (board[cy][cx].value === 3 - turn) {
+        cx += dx;
+        cy += dy;
+        c++;
+      }
+      if (board[cy][cx].value === turn) {
+        total += c;
+        if (action) {
+          board[y][x].value = turn;
+          cx = x + dx;
+          cy = y + dy;
+          while (board[cy][cx].value === 3 - turn) {
+            board[cy][cx].value = turn;
+            cx += dx;
+            cy += dy;
+          }
+        }
+      }
+    }
+  }
+  return total !== 0;
+};
+
+let currentTurn = 1;
+
+const ondown = (x, y) => {
+  if (board[y][x].value !== 0) {
+    return;
+  }
+  if (currentTurn === 1) {
+    if (putPiece(x, y, currentTurn)) {
+      putPiece(x, y, currentTurn, true);
+      showBoard();
+      changeTurn();
+      if (currentTurn === 2) {
+        computerMove();
+      }
     }
   }
 };
