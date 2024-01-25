@@ -86,20 +86,56 @@ const putPiece = (x, y, turn, action) => {
 };
 
 let currentTurn = 1;
+let lastPass = false;
+
+const changeTurn = () => {
+  currentTurn = 3 - currentTurn;
+  let pass = true;
+  for (let y = 1; y < 9; y++) {
+    for (let x = 1; x < 9; x++) {
+      if (putPiece(x, y, currentTurn)) {
+        pass = false;
+      }
+    }
+  }
+  if (pass) {
+    if (lastPass) {
+      // gameover
+      let blackCount = board.flat().filter((v) => v.value === 1).length;
+      let whiteCount = board.flat().filter((v) => v.value === 2).length;
+      let message = `Black ${blackCount}: White ${whiteCount}. `;
+      if (blackCount > whiteCount) {
+        message += `Black won.`;
+      } else if (whiteCount > blackCount) {
+        message += "White won.";
+      } else {
+        message += "Draw.";
+      }
+      currentTurn = -1;
+      document.getElementById("message").textContent = message;
+    } else {
+      lastPass = true;
+      changeTurn();
+    }
+  } else {
+    let message = "";
+    if (lastPass) {
+      message += currentTurn === 1 ? "White passed. " : "Black passed. ";
+    }
+    lastPass = false;
+    message += currentTurn === 1 ? "Black to move." : "White to move.";
+    document.getElementById("message").textContent = message;
+  }
+};
 
 const ondown = (x, y) => {
   if (board[y][x].value !== 0) {
     return;
   }
-  if (currentTurn === 1) {
-    if (putPiece(x, y, currentTurn)) {
-      putPiece(x, y, currentTurn, true);
-      showBoard();
-      changeTurn();
-      if (currentTurn === 2) {
-        computerMove();
-      }
-    }
+  if (putPiece(x, y, currentTurn)) {
+    putPiece(x, y, currentTurn, true);
+    showBoard();
+    changeTurn();
   }
 };
 
