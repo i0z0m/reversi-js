@@ -15,18 +15,18 @@ board[5][4].value = 2;
 board[4][5].value = 2;
 
 const init = () => {
-  const container = document.getElementById("container");
+  const container = document.getElementById('container');
   for (let y = 1; y < 9; y++) {
     for (let x = 1; x < 9; x++) {
-      const div = document.createElement("div");
+      const div = document.createElement('div');
       Object.assign(div.style, {
-        position: "absolute",
+        position: 'absolute',
         left: `${(x - 1) * 40}px`,
         top: `${(y - 1) * 40}px`,
-        width: "40px",
-        height: "40px",
-        border: "solid 1px #000",
-        backgroundColor: "#080"
+        width: '40px',
+        height: '40px',
+        border: 'solid 1px #000',
+        backgroundColor: '#080',
       });
       container.appendChild(div);
 
@@ -34,13 +34,13 @@ const init = () => {
         ondown(x, y);
       };
 
-      const piece = document.createElement("div");
+      const piece = document.createElement('div');
       div.appendChild(piece);
       Object.assign(piece.style, {
-        width: "40px",
-        height: "40px",
-        borderRadius: "50%",
-        backgroundColor: "#080"
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        backgroundColor: '#080',
       });
 
       board[y][x].element = piece;
@@ -105,26 +105,26 @@ const changeTurn = () => {
       const whiteCount = board.flat().filter((v) => v.value === 2).length;
       let message = `Black ${blackCount}: White ${whiteCount}. `;
       if (blackCount > whiteCount) {
-        message += "Black won.";
+        message += 'Black won.';
       } else if (whiteCount > blackCount) {
-        message += "White won.";
+        message += 'White won.';
       } else {
-        message += "Draw.";
+        message += 'Draw.';
       }
       currentTurn = -1;
-      document.getElementById("message").textContent = message;
+      document.getElementById('message').textContent = message;
     } else {
       lastPass = true;
       changeTurn();
     }
   } else {
-    let message = "";
+    let message = '';
     if (lastPass) {
-      message += currentTurn === 1 ? "White passed. " : "Black passed. ";
+      message += currentTurn === 1 ? 'White passed. ' : 'Black passed. ';
     }
     lastPass = false;
-    message += currentTurn === 1 ? "Black to move." : "White to move.";
-    document.getElementById("message").textContent = message;
+    message += currentTurn === 1 ? 'Black to move.' : 'White to move.';
+    document.getElementById('message').textContent = message;
   }
 };
 
@@ -162,7 +162,7 @@ const ondown = (x, y) => {
 };
 
 const showBoard = () => {
-  const colors = ["#080", "#000", "#fff"];
+  const colors = ['#080', '#000', '#fff'];
   for (let y = 1; y < 9; y++) {
     for (let x = 1; x < 9; x++) {
       const piece = board[y][x].element;
